@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>STREAMZ</title>
+    <link href="streamz/chatfiles/chatdesign.css" rel="stylesheet" />
+    <link href="streamz/chatfiles/bootstrap.min.css" rel="stylesheet" />
+    <link href="streamz/chatfiles/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="streamz/chatfiles/statuschangescss.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="px-lg-5">
+            <br />
+            <br />
+            <div class="row">
+               
+            </div>
+        </div>
+    </div>
+
+    <div class="fabs">
+        <div class="chat">
+            <div class="chat_header">
+                <div class="chat_option">
+                    <div class="header_img">
+                        <img src="streamz/login/assets/images/logo/logosite.jpeg" />
+                        <!--<img src="http://res.cloudinary.com/dqvwa7vpe/image/upload/v1496415051/avatar_ma6vug.jpg" />-->
+                    </div>
+                    <span id="chatLogs">STREAMZ</span> <br>  <span class="indicator online"></span> <span class="online">(We're online)</span>
+
+                    <span id="chat_fullscreen_loader" class="chat_fullscreen_loader"><i class="fullscreen zmdi zmdi-window-maximize"></i></span>
+
+                </div>
+
+            </div>
+            <div class="chat_body chat_login">
+                <a id="chat_first_screen" class="fab"><i class="zmdi zmdi-arrow-right"></i></a>
+                <p>We make it simple and seamless for businesses and people to talk to each other. Ask us anything</p>
+            </div>
+            <div id="chat_converse" class="chat_conversion chat_converse">
+                <span class="chat_msg_item chat_msg_item_admin">
+                    <h6 id="chatLoggg" style="color:red;"></h6>
+                </span>
+
+
+            </div>
+
+            <div class="fab_field">
+                
+               
+
+                <div id="chatFormContainer">
+                    <form id="chatForm">
+
+                        <input id="chatMessage" placeholder="Type  message and press enter..." type="text">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <a id="prime" class="fab"><i class="prime zmdi zmdi-comment-outline"></i></a>
+    </div>
+</body>
+</html>
+<script src='http://code.jquery.com/jquery-1.11.3.min.js'></script>
+<script src="streamz/chatfiles/bootstrap.bundle.min.js"></script>
+<script src="streamz/chatfiles/jquery-3.3.1.slim.min.js"></script>
+<script src="streamz/chatfiles/chatjs.js"></script>
+<script>
+    var username = `user_${getRandomNumber()}`
+    var apiKey = 'oCdCMcMPQpbvNjUIzqtvF1d2X2okWpDQj4AwARJuAgtjhzKxVEjQU6IdCjwm';
+    var channelId = 1;
+    var piesocket = new WebSocket(`wss://demo.websocket.me/v3/${channelId}?api_key=${apiKey}&notify_self`);
+
+    var chatLog = document.getElementById('chatLoggg');
+    var chatForm = document.getElementById('chatForm');
+    chatForm.addEventListener("submit", sendMessage);
+
+    piesocket.onopen = function () {
+        console.log(`Websocket connected`);
+        piesocket.send(JSON.stringify({
+            event: 'new_joining',
+            sender: username,
+        }));
+    }
+    piesocket.onmessage = function (message) {
+        var payload = JSON.parse(message.data);
+        console.log(payload);
+
+        if (payload.sender == username) {
+            payload.sender = "You";
+
+        }
+
+        if (payload.event == "new_message") {
+
+                // username1.insertAdjacentHTML('afterend', `<div> ${payload.sender} <div>`);
+            chatLoggg.insertAdjacentHTML('beforebegin', `<div> ${payload.sender}: ${payload.text} <div>`);
+          
+            //Handle new message
+            //
+
+
+        } else if (payload.event == 'new_joining') {
+
+            //Handle new joining
+            chatLoggg.insertAdjacentHTML('beforebegin', `<div> ${payload.sender} Thanks for contacting us.we are online now and live streaming service is available please share your email.<div>`);
+
+        }
+    }
+
+    function getRandomNumber() {
+        return Math.floor(Math.random() * 1000);
+    }
+
+    function sendMessage(e) {
+        e.preventDefault();
+
+        var message = document.getElementById('chatMessage').value;
+        if (message == "") {
+            return;
+        }
+        piesocket.send(JSON.stringify({
+            event: 'new_message',
+            sender: username,
+            text: message
+        }));
+        $('#chatMessage').val('')
+    }
+
+
+    $("#startvideocallid").hover(function () {
+        $(this).css('cursor', 'pointer').attr('title', 'Start video call.');
+    }, function () {
+        $(this).css('cursor', 'auto');
+    });
+</script>

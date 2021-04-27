@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cetaceanstechlab.com/flingo/tf-demo/videocall.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 10 Apr 2021 07:37:24 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="keywords" content="Flingo, Messaging app, chat, chat app" />
+
+    <title>STREAMZ</title>
+    <link href="https://fonts.googleapis.com/css?family=Archivo:400,400i,500,500i,600,700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="streamz/assets/fonts/MaterialDesign/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="streamz/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="streamz/assets/vendors/OwlCarousel2/owl.carousel.css">
+    <link rel="stylesheet" href="streamz/assets/vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="streamz/css/app.css">
+    <link rel="stylesheet" href="streamz/css/theme/default.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
+
+   
+</head>
+<body class="light-default-theme">
+    <div class="ca-main-conatiner">
+        <div class="ca-main-wrapper">
+            <div class="calling-modal-data">
+                <!-- INCOMING VIDEO CALL -->
+                <div class="modal calling-modal CallDialogFullscreen-sm" id="incomingVideoCall" tabindex="-1" role="dialog" aria-labelledby="incomingVideoCall" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="text-center">
+
+                                    <div class="userprofile-name">
+                                        <span>Incoming Call</span>
+
+                                    </div>
+
+                                    <div class="call-actions">
+                                       <div class="call-hangup" data-dismiss="modal"><i class="mdi mdi-phone-hangup" onclick="gotofeecback();"></i></div>
+                                        <div class="call-pickup" data-toggle="modal" data-target="#incomingVideoStart"><i class="mdi mdi-video-outline"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- VIDEO CALL START-->
+               
+                <div class="modal fade videocall-modal CallDialogFullscreen-sm" id="incomingVideoStart" tabindex="-1" role="dialog" aria-labelledby="incomingVideoStart" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl " role="treeitem">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="icvideocallwrapper">
+                                    <div class="icvideo-contact">
+                                        <video id="remoteVideo" controls autoplay muted class="img-fluid icvideo-contact__inner" style="width:100%;"></video>
+                                        <!--   <img class="img-fluid icvideo-contact__inner" src="assets/images/media/call-01.jpg" alt="">-->
+                                    </div>
+
+                                    <div class="icvideo-user">
+                                        <video id="localVideo" controls autoplay class=""></video>
+                                        <!--  <img class="" src="assets/images/media/call-02.jpg" alt="">-->
+                                    </div>
+
+                                    <div class="icvideo-actions">
+                                        <div class="icvideo-actions__left">
+                                            <div class="icvideo-actions__left--duration"></div>
+                                        </div>
+                                        <div class="icvideo-actions__middle">
+                                            <div class="">
+
+                                                <div class="iconbox btn-hovered-light" data-toggle="tooltip" data-placement="top" title="Speaker">
+                                                    <i class="iconbox__icon mdi mdi-volume-high" onclick="UnMuteallAudio();"></i>
+                                                </div>
+                                                <div class="iconbox btn-hovered-light" data-toggle="tooltip" data-placement="top" title="Hold">
+                                                    <i class="iconbox__icon mdi mdi-pause" onclick="videoPause();"></i>
+                                                </div>
+                                                <div class="iconbox btn-hovered-light" data-toggle="tooltip" data-placement="top" title="Display Video">
+                                                    <i class="iconbox__icon mdi mdi-phone-plus" onclick="videoPlay();"></i>
+                                                </div>
+                                                <div class="iconbox btn-hovered-light" data-toggle="tooltip" data-placement="top" title="Disbale Video">
+                                                    <i class="iconbox__icon mdi mdi-video-off-outline" onclick="videoMute();"></i>
+                                                </div>
+                                                <div class="iconbox btn-hovered-light" data-toggle="tooltip" data-placement="top" title="Mute">
+                                                    <i class="iconbox__icon mdi mdi-microphone-off" onclick="MuteallAudio();"></i>
+                                                </div>
+                                              
+                                            </div>
+                                        </div>
+
+                                        <div class="icvideo-actions__right">
+                                            <div class="iconbox btn-hovered-light bg-danger" data-dismiss="modal" data-toggle="tooltip" data-placement="top" title="Hangup">
+                                                <i class="iconbox__icon text-white mdi mdi-phone-hangup" onclick="gotofeecback();"></i>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OUTGOING VOICE CALL -->
+                <div class="modal CallDialogFullscreen-sm" id="outGoingCall" tabindex="-1" role="dialog" aria-labelledby="outGoingCall" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="text-center">
+                                    <div class="user-avatar user-avatar-rounded user-avatar-xl">
+                                        <img src="streamz/assets/images/user/250/01.jpg" alt="">
+                                    </div>
+                                    <div class="userprofile-name">
+                                        <span>Calling...</span>
+                                        <h4>Jack P. Angulo</h4>
+                                        <span>Product Manager</span>
+
+                                        <div class="call-duration">00:36</div>
+                                    </div>
+
+                                    <div class="call-options">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <div class="call-options__iconbox">
+                                                    <i class="mdi mdi-microphone-off"></i>
+                                                </div>
+                                                <h6>Mute</h6>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="call-options__iconbox">
+                                                    <i class="mdi mdi-volume-high"></i>
+                                                </div>
+                                                <h6>Speaker</h6>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <div class="call-options__iconbox">
+                                                    <i class="mdi mdi-pause"></i>
+                                                </div>
+                                                <h6>Hold</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="call-actions">
+                                        <div class="call-hangup" data-dismiss="modal"><i class="mdi mdi-phone-hangup"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+   
+
+
+
+    <script src='http://code.jquery.com/jquery-1.11.3.min.js'></script>
+    <script src="streamz/assets/vendors/jquery/jquery-3.4.1.min.js"></script>
+    <script src="streamz/assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="streamz/assets/vendors/material-floating-button/dist/mfb.min.js"></script>
+    <script src="streamz/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="streamz/assets/vendors/OwlCarousel2/owl.carousel.min.js"></script>
+    <script src="streamz/js/app.js"></script>
+    <script src="streamz/script.js"></script>
+    <script>
+        //INCOMING VIDEO CALL
+
+        setTimeout(function () {
+            $('#incomingVideoCall').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+        }, 20);
+
+
+        $(".call-pickup").on('click', function () {
+            $('#incomingVideoCall').modal('hide');
+            $('#incomingVideoStart').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+        });
+
+
+    </script>
+
+    <script>
+        function hidevide() {
+            $('#incomingVideoStart').modal('hide');
+
+        }
+        function MuteallAudio() {
+
+            /*** Mute all ***/
+
+            /*** Mute all video and audio on page ***/
+            $('body video, body audio').each(function () {
+                /*** Do it here globally ***/
+                $(this).prop('muted', true);
+            });
+
+        }
+
+        function gotofeecback() {
+            window.location.href = "feedback.html";
+
+
+        }
+
+        /*** UnMute all ***/
+        function UnMuteallAudio() {
+
+            /*** Un Mute all video and audio on page ***/
+            $('body video, body audio').each(function () {
+                /*** Do it here globally ***/
+                $(this).prop('muted', false);
+            });
+        }
+
+        function videoMute() {
+            $('#localVideo').hide();
+            $('#localVideo').trigger('pause');
+        }
+
+        function videoPause() {
+
+            $('#localVideo').trigger('pause');
+        }
+
+        function videoPlay() {
+            $('#localVideo').show();
+            $('#localVideo').trigger('play');
+        }
+
+        var $temp = $("<input>");
+        var $url = $(location).attr('href');
+
+        $('.clipboard').on('click', function () {
+            $("body").append($temp);
+            $temp.val($url).select();
+            document.execCommand("copy");
+            $temp.remove();
+            alert("URL copied!");
+            //$("p").text("URL copied!");
+            //  $("#urltextcopy").delay(3200).fadeOut(300);
+
+
+        })
+
+        var x = document.getElementById("localVideo");
+
+        function enableMute() {
+            x.muted = true;
+        }
+
+        function disableMute() {
+            x.muted = false;
+        }
+
+        function videoMute() {
+            $('#localVideo').hide();
+            $('#localVideo').trigger('pause');
+        }
+
+        function videoPlay() {
+            $('#localVideo').show();
+            $('#localVideo').trigger('play');
+        }
+
+
+
+    </script>
+
+  
+</body>
+</html>

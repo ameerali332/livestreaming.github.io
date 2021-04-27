@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>STREAMZ</title>
+</head>
+<body>
+    <input type="file" class="btn btn-tone btn-primary" name="file" id="selectedimg" value="Upload" />
+
+    <img id="previewimg" alt="" style="width:350px; height:300px;">
+
+    <br /><br />
+    <input type="button" value="Save" />
+    <script src="assets/vendors/jquery/jquery-3.4.1.min.js"></script>
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#previewimg').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#selectedimg").change(function () {
+            readURL(this);
+        });
+    </script>
+</body>
+
+</html>
